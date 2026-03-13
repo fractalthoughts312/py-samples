@@ -16,7 +16,7 @@ OUTPUT_FILE = os.getenv("OUTPUT_FILE", "result.txt")
 def get_token() -> str:
     if not CLIENT_SECRET:
         raise RuntimeError(
-            "CLIENT_SECRET не задан. Передайте его через переменную окружения "
+            "CLIENT_SECRET not found, add var "
             "KEYCLOAK_CLIENT_SECRET."
         )
 
@@ -54,23 +54,23 @@ def check_users() -> None:
                 resp.raise_for_status()
                 users = resp.json()
             except requests.RequestException as e:
-                out = f"{username} — ⚠️ ошибка запроса ({e})\n"
+                out = f"{username} — ⚠️ request error ({e})\n"
                 print(out.strip())
                 f_out.write(out)
                 continue
 
             if not users:
-                out = f"{username} — ❌ НЕ НАЙДЕН\n"
+                out = f"{username} — ❌ not found\n"
             else:
                 u = users[0]
                 first = u.get("firstName", "")
                 last = u.get("lastName", "")
                 email = u.get("email", "")
                 enabled = u.get("enabled", True)
-                status = "⚠️ ЗАБЛОКИРОВАН" if not enabled else "✅ Активен"
+                status = "⚠️ blocked" if not enabled else "✅ active"
                 out = (
-                    f"{username} — {status} | Имя: {first}, "
-                    f"Фамилия: {last}, Email: {email}\n"
+                    f"{username} — {status} | name: {first}, "
+                    f"last name: {last}, Email: {email}\n"
                 )
 
             print(out.strip())
@@ -81,5 +81,5 @@ if __name__ == "__main__":
     try:
         check_users()
     except Exception as exc:
-        print(f"Критическая ошибка: {exc}", file=sys.stderr)
+        print(f"critical error: {exc}", file=sys.stderr)
         sys.exit(1)
