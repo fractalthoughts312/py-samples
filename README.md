@@ -1,5 +1,7 @@
 voipcfg.py
 
+I know this script uses bad practice, but at the time of writing it fully covered the task and requirements.
+
 The script is needed for automatically preparing phone/VoIP device configurations.
 Basically, it takes the "employee → (device MAC, extension number)" mapping from LDAP, then retrieves the SIP credentials for this number from Asterisk/FreePBX and generates a configuration file using a template, saving it to a TFTP directory under the MAC address's name. This allows for centralized and mass configuration/reconfiguration of phones without manual entry.
 
