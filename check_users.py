@@ -5,21 +5,13 @@ import requests
 import urllib3
 
 
-# === Настройки (через переменные окружения) ===
+
 KEYCLOAK_URL = os.getenv("KEYCLOAK_URL", "https://keycloak.example.com")
 REALM_NAME = os.getenv("KEYCLOAK_REALM", "master")
 CLIENT_ID = os.getenv("KEYCLOAK_CLIENT_ID", "user-checker")
-# Секрет по умолчанию не задан, его нужно передавать только через окружение/секреты
 CLIENT_SECRET = os.getenv("KEYCLOAK_CLIENT_SECRET")
-
 INPUT_FILE = os.getenv("INPUT_FILE", "list.txt")
 OUTPUT_FILE = os.getenv("OUTPUT_FILE", "result.txt")
-
-# Верификация сертификата: по умолчанию включена
-VERIFY_SSL = os.getenv("KEYCLOAK_VERIFY_SSL", "true").lower() == "true"
-if not VERIFY_SSL:
-    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-
 
 def get_token() -> str:
     if not CLIENT_SECRET:
